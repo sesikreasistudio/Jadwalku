@@ -1,0 +1,6 @@
+{
+  "name": "JadwalKu - Skedul Harian & Smart Sync",
+  "description": "Aplikasi skedul harian modern dengan notifikasi pintar, sinkronisasi lintas perangkat, catatan cepat, enkripsi end-to-end, dan integrasi Google Calendar.",
+  "requestFramePermissions": ["notifications"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
