@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+html {
+  overflow-x: hidden !important;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+  touch-action: pan-y;
+}
+
+body {
+  overflow-x: hidden !important;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+#root {
+  overflow-x: hidden !important;
+  max-width: 100%;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes bounceShort {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-bounce-short {
+  animation: bounceShort 0.6s ease-in-out 2;
+}
