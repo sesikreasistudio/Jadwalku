@@ -14,6 +14,21 @@ export type SoundTone = 'melodi_lembut' | 'alarm_dinamis' | 'genta_klasik';
 
 export type AlarmPlaybackMode = 'once' | 'loop';
 
+export type DayOfWeek = 'senin' | 'selasa' | 'rabu' | 'kamis' | 'jumat' | 'sabtu' | 'minggu';
+
+export interface WeeklyScheduleItem {
+  id: string;
+  day: DayOfWeek;
+  title: string;
+  startTime: string; // "08:00"
+  endTime: string;   // "09:30"
+  category: ActivityCategory;
+  priority?: PriorityLevel;
+  location?: string;
+  notes?: string;
+  isActive?: boolean;
+}
+
 export interface SoundToneOption {
   id: SoundTone;
   label: string;
