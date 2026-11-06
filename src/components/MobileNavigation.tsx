@@ -1,13 +1,14 @@
 import React from 'react';
 import { 
   Clock, 
+  CalendarDays,
   ListTodo, 
   StickyNote, 
   RefreshCw, 
   Plus 
 } from 'lucide-react';
 
-export type ActiveTab = 'timeline' | 'list' | 'notes' | 'sync';
+export type ActiveTab = 'timeline' | 'weekly' | 'list' | 'notes' | 'sync';
 
 interface MobileNavigationProps {
   activeTab: ActiveTab;
@@ -38,17 +39,17 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
           <span className="text-[10px]">Timeline</span>
         </button>
 
-        {/* List Tab */}
+        {/* Jadwal Mingguan Tab */}
         <button
-          onClick={() => onChangeTab('list')}
+          onClick={() => onChangeTab('weekly')}
           className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${
-            activeTab === 'list'
+            activeTab === 'weekly'
               ? 'text-indigo-600 dark:text-indigo-400 font-bold'
               : 'text-zinc-500 dark:text-zinc-400'
           }`}
         >
-          <ListTodo className="w-5 h-5 mb-0.5" />
-          <span className="text-[10px]">Daftar</span>
+          <CalendarDays className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px]">Mingguan</span>
         </button>
 
         {/* Center Floating Action Button (Tambah Jadwal) */}
@@ -61,6 +62,19 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
             <Plus className="w-6 h-6" />
           </button>
         </div>
+
+        {/* List Tab */}
+        <button
+          onClick={() => onChangeTab('list')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${
+            activeTab === 'list'
+              ? 'text-indigo-600 dark:text-indigo-400 font-bold'
+              : 'text-zinc-500 dark:text-zinc-400'
+          }`}
+        >
+          <ListTodo className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px]">Daftar</span>
+        </button>
 
         {/* Catatan Cepat Tab */}
         <button
@@ -87,7 +101,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
           <RefreshCw className="w-5 h-5 mb-0.5" />
           <span className="text-[10px]">Sinkron</span>
           {pendingSyncCount > 0 && (
-            <span className="absolute top-1 right-3 w-2 h-2 rounded-full bg-amber-500"></span>
+            <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-amber-500"></span>
           )}
         </button>
       </div>
