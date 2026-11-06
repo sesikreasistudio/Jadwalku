@@ -5,7 +5,8 @@ import {
   QuickNote, 
   E2EEConfig,
   SoundTone,
-  AlarmPlaybackMode
+  AlarmPlaybackMode,
+  WeeklyScheduleItem
 } from './types';
 import { 
   loadSchedules, 
@@ -17,7 +18,9 @@ import {
   getTodayDateString, 
   getSyncQueue, 
   addToSyncQueue, 
-  clearSyncQueue 
+  clearSyncQueue,
+  loadWeeklySchedules,
+  saveWeeklySchedules
 } from './utils/storage';
 import { 
   initAuth, 
@@ -37,6 +40,7 @@ import { sounds } from './utils/sound';
 import { Header } from './components/Header';
 import { DailyTimeline } from './components/DailyTimeline';
 import { ScheduleListView } from './components/ScheduleListView';
+import { WeeklyScheduleView } from './components/WeeklyScheduleView';
 import { QuickNotes } from './components/QuickNotes';
 import { ScheduleModal } from './components/ScheduleModal';
 import { GoogleCalendarSyncModal } from './components/GoogleCalendarSyncModal';
@@ -47,6 +51,7 @@ import { SmartAlertToast, SmartAlert } from './components/SmartAlertToast';
 import { MobileNavigation, ActiveTab } from './components/MobileNavigation';
 import { 
   Clock, 
+  CalendarDays,
   ListTodo, 
   StickyNote, 
   RefreshCw, 
@@ -74,6 +79,7 @@ export default function App() {
   // Core Data
   const [schedules, setSchedules] = useState<ScheduleItem[]>(() => loadSchedules());
   const [notes, setNotes] = useState<QuickNote[]>(() => loadNotes());
+  const [weeklyItems, setWeeklyItems] = useState<WeeklyScheduleItem[]>(() => loadWeeklySchedules());
   const [e2eeConfig, setE2EEConfig] = useState<E2EEConfig>(() => loadE2EEConfig());
   const [e2eePassphrase, setE2EEPassphrase] = useState<string>('');
 
@@ -450,6 +456,12 @@ export default function App() {
     addToSyncQueue({ type: 'schedule_delete', payload: { id } });
   };
 
+  // Weekly Schedule CRUD
+  const handleSaveWeeklyItems = (items: WeeklyScheduleItem[]) => {
+    setWeeklyItems(items);
+    saveWeeklySchedules(items);
+  };
+
   // Quick Notes CRUD
   const handleSaveNote = (
     noteData: Omit<QuickNote, 'id' | 'createdAt' | 'updatedAt' | 'syncStatus'>,
@@ -627,6 +639,18 @@ export default function App() {
             </button>
 
             <button
+              onClick={() => setActiveTab('weekly')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'weekly'
+                  ? 'bg-white dark:bg-zinc-900 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
+              }`}
+            >
+              <CalendarDays className="w-4 h-4" />
+              <span>Jadwal Mingguan ({weeklyItems.length})</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('list')}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 activeTab === 'list'
@@ -731,6 +755,17 @@ export default function App() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'weekly' && (
+          <div className="w-full max-w-full">
+            <WeeklyScheduleView
+              weeklyItems={weeklyItems}
+              onSaveWeeklyItems={handleSaveWeeklyItems}
+              onCopyToDailySchedule={handleSaveSchedule}
+              selectedDate={selectedDate}
+            />
           </div>
         )}
 
